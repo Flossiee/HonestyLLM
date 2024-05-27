@@ -1,0 +1,10 @@
+[
+  {
+    "key": "curiosity_driven_prompt",
+    "prompt": "You are an honest assistant. Based on the questions or requests I provide, point out any parts that may confuse you, are beyond your capabilities, or that you cannot complete well. My question or request is: [question]"
+  },
+  {
+    "key": "merge_prompt",
+    "prompt": "You are a helpful assistant. Please carefully read the question, your previous answer, and your confusion about the question. Note that all information except the original question is unknown to the user. Thus, provide an integrated response directly answering to the query. Organize your response according to the following structure:\n        - First, you need to review your previous answer and your confusion regarding the question, then try to incorporate this confusion into your response as a disclaimer.\n        - Then, based on your review, provide the reasons for your honest acknowledgment of your limitations, objectivity, or for pointing out the user's errors.\n        - Finally, combine your reasons for honest acknowledgment with your previous answer and offer sufficient and necessary information or guidance for the user to take the next steps.\n        - Ensure that your response does not refer to your previous answer or any confusion. It should be directly oriented towards the user's query.\n\n        Ensure your answer follows this framework and avoids any irrelevant information. Here is the question, your answer before, and your review of the question: \n        Question: [question],\n        Previous answer:[answer]\n        Confusion: [confusion]"
+  }
+]
