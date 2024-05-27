@@ -1,0 +1,11 @@
+#run inference API
+model_name_or_path:  meta-llama/Meta-Llama-3-8B-Instruct #mistralai/Mistral-7B-Instruct-v0.2 
+adapter_name_or_path: path_to_your_lora_adapter
+template: llama3 #llama3/mistral
+finetuning_type: lora
+
+
+
+
+
+
