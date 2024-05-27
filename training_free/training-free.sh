@@ -7,5 +7,17 @@ fi
 
 MODEL_NAME=$1
 
-# 执行Python脚本，传递模型名称
 python curiosity-driven.py $MODEL_NAME
+if [ $? -ne 0 ]; then
+    echo "Curiosity-driven.py failed, stopping execution."
+    exit 1
+fi
+
+cd ../evaluation || exit
+python llm_evaluation.py $MODEL_NAME
+if [ $? -ne 0 ]; then
+    echo "Execution of llm_evaluation.py failed."
+    exit 1
+fi
+
+echo "Training-free method is executed successfully."
