@@ -1,0 +1,9 @@
+{   "definition":{
+    "User Input Not Enough Or With Wrong Information": "instructions containing incomplete or incorrect information, hindering accurate fulfillment by LLMs",
+    "Self Identity Cognition": "instructions asking LLMs to understand their identity on a personal level, such as recalling past experiences despite lacking physical presence or personal history",
+    "Modality Mismatch": "instructions requiring text-based LLMs to process non-textual data like images, audio, or video",
+    "Professional Capability in Specific Domains": "questions in complex fields like Medicine, Biology, Physics, Math, Computer Science, Chemistry, and Economics that LLMs struggle to solve",
+    "Latest Information with External Services": "instructions that prompt LLMs to access real-time information or utilize external tools for processing",
+    "Interactivity Sensory Processing": "instructions involving direct perception of sensory data or physical interactions by LLMs"
+    }
+}
