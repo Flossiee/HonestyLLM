@@ -11,26 +11,15 @@ import sys
 import prompt_loader
 from functools import partial
 
+
 @retry(wait=wait_random_exponential(min=1, max=10), stop=stop_after_attempt(6))
 def get_azure(string, model):
-    # model_mapping = {'gpt-4': 'YOUR_GPT4_VERSION', 'chatgpt': 'YOUR_CHATGPT_VERSION'}
-    # try:
-    #     client = AzureOpenAI(
-    #         api_key='AZURE_KEY',
-    #         api_version="AZURE_API_VERSION",
-    #         azure_endpoint="AZURE_CHECKPOINT"
-    #     )
-    model_mapping = {'gpt-4': 'yuehuang-gpt-4', 'chatgpt': 'TrustLLM_chatgpt_1106'}  # 这里chatgpt没有换
+    model_mapping = {'gpt-4': 'YOUR_GPT4_VERSION', 'chatgpt': 'YOUR_CHATGPT_VERSION'}
     client = AzureOpenAI(
-        # 15w
-        api_key='428527aa7f804ebd866f9bb76bbe3ffe',
-        # 8w
-        # api_key='1f462c580d06407eb49954553ab22ff7',
-        api_version="2023-12-01-preview",  # 15w
-        # api_version="2023-08-01-preview",  # 8w
-        azure_endpoint="https://yuehuang-15w.openai.azure.com/"
-        # azure_endpoint="https://trustllm-gpt-4.openai.azure.com/"
-        )
+            api_key='AZURE_KEY',
+            api_version="AZURE_API_VERSION",
+            azure_endpoint="AZURE_CHECKPOINT"
+    )
     try:
         chat_completion = client.chat.completions.create(
             model=model_mapping[model],

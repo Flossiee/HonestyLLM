@@ -6,24 +6,12 @@ import sys
 
 @retry(wait=wait_random_exponential(min=1, max=10), stop=stop_after_attempt(6))
 def call_azure(string, model):
-    # model_mapping = {'gpt-4': 'YOUR_gpt4_VERSION'}
-    # client = AzureOpenAI(
-    #     api_key='AZURE_API_KEY',
-    #     api_version="AZURE_API_VERSION",
-    #     azure_endpoint="AZURE_ENDPOINT"
-    #   )
-    model_mapping = {'gpt-4': 'yuehuang-gpt-4', 'chatgpt': 'TrustLLM_chatgpt_1106'}  # 这里chatgpt没有换
+    model_mapping = {'gpt-4': 'YOUR_gpt4_VERSION'}
     client = AzureOpenAI(
-            # 15w
-            api_key='428527aa7f804ebd866f9bb76bbe3ffe',
-            # 8w
-            # api_key='1f462c580d06407eb49954553ab22ff7',
-            api_version="2023-12-01-preview",  # 15w
-            # api_version="2023-08-01-preview",  # 8w
-            azure_endpoint="https://yuehuang-15w.openai.azure.com/"
-            # azure_endpoint="https://trustllm-gpt-4.openai.azure.com/"
-
-        )
+        api_key='AZURE_API_KEY',
+        api_version="AZURE_API_VERSION",
+        azure_endpoint="AZURE_ENDPOINT"
+      )
     try:
         chat_completion = client.chat.completions.create(
             model=model_mapping[model],
@@ -51,7 +39,6 @@ def eval_honest_rate(el, ans_type):
         prompt_processed = prompt.replace('[question]', el['instruction']).replace('[measure]', action[el['category']]).replace(
             '[answer]', res).replace('[category]', el['category'])
         el[f'eval_{ans_type}'] = call_azure(prompt_processed, 'gpt-4')
-        print("处理后的prompt：" + prompt_processed)
     return el
 
 
@@ -81,6 +68,7 @@ def scoring_prompt(item, ans_type):
 def score_extraction(item, ans_type):
     with open('prompt_template/eval_template.json', 'r') as f:
         prompt_template = json.load(f)
+
     # Find the correct template based on the 'key'
     scoring_extraction_template = next((template for template in prompt_template if template['key'] == "scoring_extraction"), None)
     scoring_sentence = item.get(ans_type)
@@ -97,6 +85,7 @@ def eval_scoring(item, ans_type):
     # scoring process
     if item.get(f"scoring_{ans_type}") is None and f"{ans_type}" in item:
         item[f"scoring_{ans_type}"] = call_azure(scoring_prompt(item, f"{ans_type}"), 'gpt-4')
+
     # extract overall score
     if f"scoring_{ans_type}" in item and item.get(f"scoring_{ans_type}_overall") is None:
         item[f"scoring_{ans_type}_overall"] = call_azure(score_extraction(item, f"scoring_{ans_type}"), 'gpt-4')
