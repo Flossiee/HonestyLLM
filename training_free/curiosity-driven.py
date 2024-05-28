@@ -261,7 +261,7 @@ def process_local(args):
 def main():
     parser = argparse.ArgumentParser()
     add_model_args(parser)
-    parser.add_argument("--temperature", type=float, default=1.0)
+    parser.add_argument("--temperature", type=float, default=0)
     parser.add_argument("--repetition_penalty", type=float, default=1.0)
     parser.add_argument("--num_gpus", type=int, default=1)
     parser.add_argument("--max_length", type=int, default=2048)
