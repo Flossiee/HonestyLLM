@@ -11,6 +11,11 @@ import sys
 import prompt_loader
 from functools import partial
 import yaml
+import argparse
+import torch
+import requests
+from fastchat.model import load_model, get_conversation_template, add_model_args
+from dotenv import load_dotenv
 
 
 def load_config():
@@ -19,6 +24,44 @@ def load_config():
 
 
 config = load_config()
+
+
+
+
+def prompt2conversation(prompt, model_path):
+    msg = prompt
+    conv = get_conversation_template(model_path)
+    conv.set_system_message('')
+    conv.append_message(conv.roles[0], msg)
+    conv.append_message(conv.roles[1], None)
+    conversation = conv.get_prompt()
+    return conversation
+
+
+def generate_output(model, tokenizer, prompt, device, max_new_tokens, temperature, model_path):
+    inputs = tokenizer([prompt], return_tensors="pt")
+    prompt = prompt2conversation(prompt, model_path=model_path)
+    inputs = tokenizer([prompt])
+    inputs = {k: torch.tensor(v).to(device) for k, v in inputs.items()}
+    if 'token_type_ids' in inputs:
+        del inputs['token_type_ids']
+    print(type(temperature))
+    output_ids = model.generate(
+        **inputs,
+        do_sample=True if temperature > 1e-5 else False,
+        temperature=temperature,
+        max_new_tokens=max_new_tokens
+    )
+    if model.config.is_encoder_decoder:
+        output_ids = output_ids[0]
+    else:
+        output_ids = output_ids[0][len(inputs["input_ids"][0]):]
+    generated_text = tokenizer.decode(
+        output_ids, skip_special_tokens=True, spaces_between_special_tokens=False
+    )
+    print(generated_text)
+
+    return generated_text
 
 
 @retry(wait=wait_random_exponential(min=1, max=10), stop=stop_after_attempt(6))
@@ -178,25 +221,62 @@ def process_online(model_name):
     print("Online processing completed for model:", model_name)
 
 
-def process_local(model_name):
-    pass
+
+
+def process_local(args):
+    model_path = args.model_path
+    print("Processing online with model name:", model_path)
+
+
+    model, tokenizer = load_model(
+        args.model_path,
+        device=args.device,
+        num_gpus=args.num_gpus,
+        max_gpu_memory=args.max_gpu_memory,
+        load_8bit=args.load_8bit,
+        cpu_offloading=args.cpu_offloading,
+        revision=args.revision,
+        debug=args.debug,
+    )
+
+    json_path = "../dataset/HoneSet.json"
+
+    with open(json_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    save_data = []
+    for item in data:
+        item['raw_ans'] = generate_output(model, tokenizer, item.get("instruction"), args.device, args.max_length, args.temperature, model_path)
+        item['res'] = generate_output(model, tokenizer, prompt_loader.get_curiosity_driven_prompt().replace('[question]', item['instruction']), args.device, args.max_length, args.temperature, model_path)
+        item['merge_ans'] = generate_output(model, tokenizer, process_merge_query(item), args.device, args.max_length, args.temperature, model_path)
+
+        save_data.append(item)
+
+    with open(f'../dataset/{model_path}_HoneSet.json', 'w', encoding='utf-8') as f:
+        json.dump(save_data, f, indent=4)
+
+    print("Local processing completed for model:", model_path)
 
 
 def main():
-    if len(sys.argv) != 3:
-        print("Usage: python curiosity-driven.py model_type model_name")
-        sys.exit(1)
+    parser = argparse.ArgumentParser()
+    add_model_args(parser)
+    parser.add_argument("--temperature", type=float, default=1.0)
+    parser.add_argument("--repetition_penalty", type=float, default=1.0)
+    parser.add_argument("--num_gpus", type=int, default=1)
+    parser.add_argument("--max_length", type=int, default=2048)
+    parser.add_argument("--debug", action="store_true")
+    parser.add_argument("--model_path", type=str, default='')
+    parser.add_argument("--filename", type=str, default='')
+    parser.add_argument("--test_type", type=str, default='plugin')
+    parser.add_argument("--online", type=str, default='False')
+    args = parser.parse_args()
 
-    model_type = sys.argv[1]
-    model_name = sys.argv[2]
-
-    if model_type == 'online':
-        process_online(model_name)
-    elif model_type == 'local':
-        process_local(model_name)
+    if args.online:
+        process_online(args.model_path)
     else:
-        print("Invalid model type")
-        sys.exit(2)
+        load_dotenv()
+        process_local(args)
 
 
 if __name__ == "__main__":
