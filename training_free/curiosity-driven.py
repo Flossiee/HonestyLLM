@@ -148,12 +148,8 @@ def process_claude_item(item):
     return item
 
 
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: python training-free.py model_name")
-        sys.exit(1)
-
-    model_name = sys.argv[1]
+def process_online(model_name):
+    print("Processing online with model name:", model_name)
     json_path = "../dataset/HoneSet.json"
 
     with open(json_path, 'r', encoding='utf-8') as f:
@@ -178,6 +174,29 @@ def main():
 
     with open(f'../dataset/{model_name}_HoneSet.json', 'w', encoding='utf-8') as f:
         json.dump(save_data, f, indent=4)
+
+    print("Online processing completed for model:", model_name)
+
+
+def process_local(model_name):
+    print("local")
+
+
+def main():
+    if len(sys.argv) != 3:
+        print("Usage: python curiosity-driven.py model_type model_name")
+        sys.exit(1)
+
+    model_type = sys.argv[1]
+    model_name = sys.argv[2]
+
+    if model_type == 'online':
+        process_online(model_name)
+    elif model_type == 'local':
+        process_local(model_name)
+    else:
+        print("Invalid model type")
+        sys.exit(2)
 
 
 if __name__ == "__main__":
