@@ -1,25 +1,17 @@
 #!/bin/bash
 
 usage() {
-    echo "Usage: $0 model_type"
+    echo "Usage: $0 model_type model_name"
     echo "model_type: 'online' or 'local'"
     exit 1
 }
 
-if [ "$#" -ne 1 ]; then
+if [ "$#" -ne 2 ]; then
     usage
 fi
 
 MODEL_TYPE=$1
-MODEL_NAME=""
-
-echo "Enter the model name:"
-read MODEL_NAME
-
-if [ -z "$MODEL_NAME" ]; then
-    echo "No model name provided, exiting."
-    exit 1
-fi
+MODEL_NAME=$2
 
 case $MODEL_TYPE in
     online)
@@ -40,7 +32,6 @@ case $MODEL_TYPE in
 
     local)
         LOCAL_MODEL_PATH=""
-
         echo "Enter the local model path (press Enter to use default):"
         read LOCAL_MODEL_PATH
         LOCAL_MODEL_PATH="${LOCAL_MODEL_PATH:-None}"
