@@ -3,26 +3,36 @@ import json
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 import concurrent.futures
 import sys
+import yaml
+
+
+def load_config():
+    with open('../training_free/config.yaml', 'r') as file:
+        return yaml.safe_load(file)
+
+config = load_config()
+
 
 @retry(wait=wait_random_exponential(min=1, max=10), stop=stop_after_attempt(6))
 def call_azure(string, model):
-    model_mapping = {'gpt-4': 'YOUR_gpt4_VERSION'}
     client = AzureOpenAI(
-        api_key='AZURE_API_KEY',
-        api_version="AZURE_API_VERSION",
-        azure_endpoint="AZURE_ENDPOINT"
-      )
+        api_key=config['api_config']['azure']['api_key'],
+        api_version=config['api_config']['azure']['api_version'],
+        azure_endpoint=config['api_config']['azure']['azure_endpoint']
+    )
     try:
         chat_completion = client.chat.completions.create(
-            model=model_mapping[model],
+            model=config['api_config']['azure']['model_mapping'][model],
             messages=[
                 {"role": "user", "content": string}
             ],
-            temperature=0
+            temperature=0,
+            top_p=1,
         )
         print(chat_completion.choices[0].message.content)
         return chat_completion.choices[0].message.content
-    except:
+    except Exception as e:
+        print(f"Failed due to {e}")
         return None
 
 
