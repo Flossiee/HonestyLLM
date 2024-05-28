@@ -1,37 +1,10 @@
-#api_config:
-#  azure:
-#    api_key: 'AZURE_KEY'
-#    api_version: 'AZURE_API_VERSION'
-#    azure_endpoint: 'AZURE_CHECKPOINT'
-#    model_mapping:
-#      gpt-4: 'GPT4_VERSION'
-#      chatgpt: 'CHATGPT_VERSION'
-#  replicate:
-#    api_key: 'YOUR_REPLICATE_API_KEY'
-#    model_mapping:
-#      llama3-70b: 'Llama3-70b_VERSION'
-#      llama3-8b: 'Llama3-8b_VERSION'
-#  deepinfra:
-#    api_key: 'YOUR_DEEPINFRA_API_KEY'
-#    base_url: 'YOUR_BASE_URL'
-#    model_mapping:
-#      llama2-7b: 'Llama2-7b_VERSION'
-#      llama2-13b: 'Llama2-13b_VERSION'
-#      llama2-70b: 'Llama3-70b_VERSION'
-#      mistral-7b: 'Mistral-7b_VERSION'
-#      mixtral-8x7b: 'Mixtral-8x7b_VERSION'
-#  anthropic:
-#    api_key: 'YOUR_CLAUDE_API'
-#    api_version: 'YOUR_CLAUDE_VERSION'
-
-
 api_config:
   azure:
-    api_key: '428527aa7f804ebd866f9bb76bbe3ffe'
-    api_version: "2023-12-01-preview"
-    azure_endpoint: "https://yuehuang-15w.openai.azure.com/"
+    api_key: 'AZURE_KEY'
+    api_version: 'AZURE_API_VERSION'
+    azure_endpoint: 'AZURE_CHECKPOINT'
     model_mapping:
-      gpt-4: 'yuehuang-gpt-4'
+      gpt-4: 'GPT4_VERSION'
       chatgpt: 'CHATGPT_VERSION'
   replicate:
     api_key: 'YOUR_REPLICATE_API_KEY'

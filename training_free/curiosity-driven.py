@@ -179,7 +179,7 @@ def process_online(model_name):
 
 
 def process_local(model_name):
-    print("local")
+    pass
 
 
 def main():
