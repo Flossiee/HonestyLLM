@@ -200,7 +200,7 @@ def process_online(model_name):
 
     if model_name in ['gpt-4', 'chatgpt']:
         process_function = process_azure_item
-    elif model_name in ['llama2-7b', 'llama2-13b', 'llama2-70b', 'mistrual-7b', 'mixtral-8x7b']:
+    elif model_name in ['llama2-7b', 'llama2-13b', 'llama2-70b', 'mistral-7b', 'mixtral-8x7b']:
         process_function = process_deepinfra_item
     elif model_name in ['llama3-70b', 'llama3-8b']:
         process_function = process_replicate_item
