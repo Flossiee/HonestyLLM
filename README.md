@@ -108,5 +108,4 @@ llamafactory-cli api model_inference.yaml
 
 Ensure `model_inference.yaml` contains the correct inference settings.
 
-## Updates
 ## Citation
