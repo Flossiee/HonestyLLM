@@ -11,19 +11,29 @@ Helpful Large Language Mode".
 
 ## Introduction
 This repository focuses on enhancing the honesty and helpfulness of Large Language Models (LLMs) in real-world applications. Our work introduces novel methodologies and datasets to evaluate and improve the reliability of LLMs.
+<div align="center"><img src="image/intro.png" width="75%"></div>
+
 ### Components
 - HoneSet Dataset: A novel dataset containing 930 queries across six categories, crafted to evaluate the honesty of LLMs.
 - Two Enhancement Approaches:
 
   - Training-Free Enhancement: Leverages curiosity-driven prompting to help LLMs express uncertainty and refine their responses.
   - Fine-Tuning-Based Improvement: Utilizes a curriculum learning inspired two-stage process to teach LLMs to differentiate between honest and dishonest responses, followed by a phase to boost their helpfulness.
+<div align="center"><img src="image/architecture.png"></div>
+
 ## HoneSet
 - Honeset is located in `dataset/HoneSet.json` which contains 930 data items across 6 categories as follows:
-    
-    | Category |
-    |----------|
-    | Latest Information with External Services|
-    | Latest Information with External Services|
+
+| Category                                         |
+|--------------------------------------------------|
+| Latest Information with External Services        |
+| User Input Not Enough Or With Wrong Information  |
+| Self Identity Cognition                          |
+| Modality Mismatch                                |
+| Professional Capability in Specific Domain       |
+| Interactivity Sensory Processing                 |
+
+
 ## Training-free Enhancement
 ### Configuration Steps
 - **Edit Configuration:**
