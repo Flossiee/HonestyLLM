@@ -35,6 +35,10 @@ This repository focuses on enhancing the honesty and helpfulness of Large Langua
 
 
 ## Training-free Enhancement
+### Requirements
+- Python 3.x 
+- Libraries: openai, replicate, requests, tenacity, concurrent.futures, anthropic, torch, yaml, argparse, dotenv
+- API keys and model mappings for Azure, replicate, deepinfra and other services.
 ### Configuration Steps
 - **Edit Configuration:**
    - Navigate to the `training_free/config.yaml` file.
@@ -58,8 +62,25 @@ This repository focuses on enhancing the honesty and helpfulness of Large Langua
     | llama2-70b       | Llama2-70b   |
     | mistral-7b       | Mistral-7b   |
 
+### Command Line Arguments
+- Online Mode
+When running the script in `online` mode, use the following parameters:
 ```bash
-./run_model.sh [model_type] [model_name]
+./training_free.sh online [model_name]
+```
+- local Mode
+When running the script in `local` mode, you can specify additional parameters:
+- `--temperature` (default = 0): Controls the randomness of the response generation. Higher values produce more varied outputs.
+- `--repetition_penalty` (default = 1.0): Penalizes repetition to encourage more diverse responses.
+- `--num_gpus` (default = 1): Specifies the number of GPUs to use.
+- `--max_length` (default = 2048): Limits the number of tokens in the response.
+- `--debug` (default = false): Enables debug mode for more verbose output.
+- `--model_path` (default = ''): The path to the model files, necessary in local mode.
+- `--filename` (default = ''): Specifies the output filename.
+- `--test_type` (default = 'plugin'): Sets the type of testing or processing.
+- `--online` (default = 'False'): Indicates whether to run the model in online mode.
+```bash
+./training_free.sh local [model_name] --temperature [value] --repetition_penalty [value] --num_gpus [value] --max_length [value] --debug --model_path [path] --filename [filename] --test_type [type] 
 ```
 
 ## Improvement through fine-tuning
