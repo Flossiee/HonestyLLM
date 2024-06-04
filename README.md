@@ -1,6 +1,6 @@
 # HonestyLLM
 This repository contains scripts and configurations for our paper "The Best of Both Worlds: Toward an Honest and
-Helpful Large Language Mode".
+Helpful Large Language Mode". [![Paper](https://img.shields.io/badge/Paper-%F0%9F%8E%93-lightblue?style=flat-square)](https://arxiv.org/abs/2406.00380)
 
 ## Table of Contents
 - 🕰️ [Introduction](#introduction)
@@ -130,3 +130,14 @@ llamafactory-cli api model_inference.yaml
 Ensure `model_inference.yaml` contains the correct inference settings.
 
 ## Citation
+
+```
+@misc{gao2024best,
+      title={The Best of Both Worlds: Toward an Honest and Helpful Large Language Model}, 
+      author={Chujie Gao and Qihui Zhang and Dongping Chen and Yue Huang and Siyuan Wu and Zhengyan Fu and Yao Wan and Xiangliang Zhang and Lichao Sun},
+      year={2024},
+      eprint={2406.00380},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
