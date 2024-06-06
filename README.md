@@ -1,6 +1,6 @@
 # HonestyLLM
 This repository contains scripts and configurations for our paper "The Best of Both Worlds: Toward an Honest and
-Helpful Large Language Mode". [![Paper](https://img.shields.io/badge/Paper-%F0%9F%8E%93-lightblue?style=flat-square)](https://arxiv.org/abs/2406.00380)
+Helpful Large Language Model". [![Paper](https://img.shields.io/badge/Paper-%F0%9F%8E%93-lightblue?style=flat-square)](https://arxiv.org/abs/2406.00380)
 
 ## Table of Contents
 - 🕰️ [Introduction](#introduction)
