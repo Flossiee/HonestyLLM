@@ -13,7 +13,11 @@ fi
 MODEL_TYPE=$1
 MODEL_NAME=$2
 
-python curiosity-driven.py $MODEL_TYPE $MODEL_NAME
+if [ "$MODEL_TYPE" = "local" ]; then
+    python curiosity-driven.py --online False --model-path $MODEL_NAME
+else
+    python curiosity-driven.py --online True --model-path $MODEL_NAME
+fi
 if [ $? -ne 0 ]; then
     echo "curiosity-driven.py failed, stopping execution."
     exit 1
